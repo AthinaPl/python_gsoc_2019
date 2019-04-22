@@ -28,9 +28,14 @@ def input_args():
 
 def get_response(in_base, in_cur, in_date):
 
-    api_url_base = 'https://api.exchangeratesapi.io/{dt}?base={bs}&symbols={cr}'.format(dt=in_date, bs=in_base, cr=in_cur)
 
-    ret = requests.get(api_url_base).json()
+
+    payload = { "base": in_base, "symbols": in_cur }
+    api_url_base = 'https://api.exchangeratesapi.io/{dt}?'.format(dt=in_date)
+
+    ret = requests.get(api_url_base, params=payload).json()
+
+
     if "error" in ret:
         # https://www.exchangerate-api.com/docs/documentation error responses from the API documentation are not correct
         raise Exception(ret["error"])
